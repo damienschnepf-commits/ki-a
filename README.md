@@ -8,7 +8,7 @@ KI-Janny ist Damiens erstes und zentrales KI-Projekt. **KI-Engineering Jenny** i
 
 ## Aktueller Funktionsumfang
 
-**Bereitstellungsstand:** Lokal geprüft; alle vier Tests bestehen. Die bisherige Übernahme über die GitHub-Integration wurde mit HTTP 403 abgelehnt. Den aktuellen Übernahmestand beschreibt `PROJECT_STATUS.md`. Die folgenden Clone-Schritte gelten nach erfolgreicher Übernahme; im lokalen Projektordner direkt `npm start -- "Projektübersicht verbessern"` und `npm test` verwenden.
+**Bereitstellungsstand:** Auf GitHub veröffentlicht und lokal geprüft; alle vier Tests bestehen. Der aktuelle Standardbranch ist `codex/ki-janny-foundation`. Den Prüf- und Übernahmestand beschreibt `PROJECT_STATUS.md`.
 
 Ein lokaler, deterministischer Aufgabenplaner ordnet einen Engineering-Auftrag Jenny zu und gibt einen strukturierten Plan als JSON aus. Er führt keine Aufträge aus und verwendet noch kein Sprachmodell. Keine externen Abhängigkeiten, Hintergrunddienste oder weiteren Agenten.
 
@@ -34,6 +34,7 @@ Leere Aufträge werden mit Exit-Code 1 abgelehnt.
 - [Architektur](docs/ARCHITECTURE.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Projektstatus](PROJECT_STATUS.md)
+- [Austausch mit GitHub Copilot](copilot/README.md)
 
 ## Arbeitsweise
 

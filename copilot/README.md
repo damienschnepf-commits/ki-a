@@ -14,4 +14,4 @@ Lies copilot/PROJECT_CONTEXT.md, copilot/TASK.md und PROJECT_STATUS.md. Bearbeit
 3. Copilots Rückmeldung steht anschließend in `copilot/RESPONSE.md` und kann von Jenny bei der nächsten Bearbeitung gelesen werden.
 4. Für einen neuen Auftrag `TASK.md` aktualisieren; relevante Ergebnisse vor dem Ersetzen der Rückmeldung in der Projektdokumentation festhalten.
 
-GitHub bleibt die Quelle der Wahrheit. Solange die Dateien nicht erfolgreich übernommen wurden, sind sie lokale Entwürfe. Keine Tokens, Passwörter oder persönlichen Geheimnisse in diesem Ordner speichern.
+GitHub bleibt die Quelle der Wahrheit. Der Grundaufbau einschließlich dieses Ordners ist auf `codex/ki-janny-foundation` veröffentlicht. Neue lokale Änderungen werden erst durch eine erfolgreiche GitHub-Übernahme Teil des verbindlichen Stands. Keine Tokens, Passwörter oder persönlichen Geheimnisse in diesem Ordner speichern.

@@ -4,7 +4,7 @@ Status: Bereit zur manuellen Übergabe an GitHub Copilot.
 
 ## Ziel
 
-Den vorhandenen KI-Janny-Grundaufbau lokal prüfen und die Bereitschaft für eine spätere GitHub-Übernahme beurteilen.
+Den veröffentlichten KI-Janny-Grundaufbau bei Bedarf unabhängig prüfen. Jennys erfolgreich abgeschlossene Erstprüfung ist in `JENNY_UPDATE.md` dokumentiert.
 
 ## Schritte
 
@@ -21,4 +21,4 @@ Den vorhandenen KI-Janny-Grundaufbau lokal prüfen und die Bereitschaft für ein
 - Es werden keine weiteren Agenten oder externen Abhängigkeiten hinzugefügt.
 - Nicht ausgeführte Prüfungen bleiben ausdrücklich als offen markiert.
 
-Dieser Übergabeauftrag umfasst lokale Prüfung und Korrekturen. Eine Veröffentlichung ist damit nicht erfolgt; GitHub-Zugriff und Übernahme werden separat behandelt.
+Dieser Übergabeauftrag umfasst lokale Prüfung und Korrekturen. Jenny hat den Grundaufbau bereits veröffentlicht. Neue Korrekturen auf einem eigenen Themenbranch vorbereiten und die Ergebnisse in `RESPONSE.md` festhalten.

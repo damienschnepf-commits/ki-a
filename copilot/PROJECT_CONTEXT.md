@@ -4,8 +4,8 @@
 - Hauptverantwortliche Engineering-Komponente: KI-Engineering Jenny.
 - GitHub Copilot unterstützt bei konkreten Engineering-Aufträgen; weitere Agenten sind derzeit nicht eingerichtet.
 - Vorgesehenes Repository: https://github.com/damienschnepf-commits/ki-a
-- Das Repository wurde leer vorgefunden. Der letzte Schreibversuch über die GitHub-Integration scheiterte mit HTTP 403 (`Resource not accessible by integration`).
-- Aktueller Stand: lokaler Entwurf mit README, Architektur, Roadmap, Projektstatus, einem deterministischen JavaScript-Aufgabenplaner, CLI und Tests.
+- Das Repository wurde leer vorgefunden. Nach HTTP 403 über die Integration gelang die Veröffentlichung über den lokalen Git-Zugang. Standardbranch: `codex/ki-janny-foundation`.
+- Aktueller Stand: auf GitHub veröffentlichter Grundaufbau mit README, Architektur, Roadmap, Projektstatus, einem deterministischen JavaScript-Aufgabenplaner, CLI und Tests.
 - Kein Sprachmodell ist angebunden. Der Planer führt keine Aufträge selbst aus.
 - Laufzeit: Node.js 22 oder neuer; keine Paketabhängigkeiten. Jenny hat am 2026-09-07 alle vier Tests mit einer geprüften portablen Node.js-v22.23.2-Laufzeit erfolgreich ausgeführt. Sie liegt außerhalb dieses Repositorys unter `../../work/runtime/node.exe`.
 

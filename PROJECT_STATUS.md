@@ -5,7 +5,7 @@ Stand: 2026-09-07
 - **Projekt:** KI-Janny, erstes und zentrales Projekt.
 - **Hauptkomponente:** KI-Engineering Jenny.
 - **Quelle der Wahrheit:** https://github.com/damienschnepf-commits/ki-a
-- **Phase:** Technischer Grundaufbau lokal vorbereitet; noch nicht auf GitHub übernommen.
+- **Phase:** Technischer Grundaufbau geprüft und auf GitHub veröffentlicht.
 - **Weitere Agenten:** Keine.
 
 ## Repository-Prüfung
@@ -26,11 +26,11 @@ Lokaler Testaufruf aus diesem Projektordner: `../../work/runtime/node.exe --test
 
 Der Projektordner hat jetzt ein eigenes Git-Repository auf `codex/ki-janny-foundation` mit dem vorgesehenen GitHub-Repository als `origin`. Copilots Rückmeldedatei enthält weiterhin nur die ursprüngliche Vorlage. Die oben genannten Prüfungen stammen von Jenny.
 
-## GitHub-Übernahme blockiert
+## GitHub-Übernahme erfolgreich
 
-Der Versuch, README.md im leeren Repository anzulegen, wurde mit HTTP 403 / `Resource not accessible by integration` abgelehnt. Die Integration hat nicht die benötigte Schreibberechtigung. GitHub CLI ist lokal ebenfalls nicht verfügbar. Auf GitHub wurde durch diesen Versuch nichts angelegt. Diese Dateien sind ein lokaler Entwurf; der verbindliche GitHub-Projektstand bleibt bis zur erfolgreichen Übernahme unverändert.
+Die erste Übernahme über die GitHub-Integration scheiterte mit HTTP 403 / `Resource not accessible by integration`. Am 2026-09-07 gelang die Veröffentlichung anschließend über den lokal verfügbaren Git-Zugang. Der Grundaufbau wurde mit Commit `8888f48f9b84a5a3c57f53ecfff887ce5c1bc5cf` auf `codex/ki-janny-foundation` veröffentlicht. GitHub bestätigt diesen Branch als Standardbranch. Die Integration selbst wurde nicht umkonfiguriert.
 
-Nächster Schritt: Der GitHub-Integration Zugriff auf dieses Repository einschließlich Schreibzugriff auf Inhalte gewähren. Danach den Entwurf testen, ins leere Repository übernehmen und den GitHub-Stand zurücklesen. Alternativ kann Damien die Dateien selbst in das Repository hochladen. Keine Zugangsdaten in Dateien oder Chat eintragen.
+GitHub ist jetzt die verbindliche Projektbasis. Weitere Änderungen als eigene Themenbranches mit Pull Request gegen den Standardbranch vorbereiten. Zugangsdaten bleiben außerhalb von Dateien und Chat.
 
 ## Noch offen
 

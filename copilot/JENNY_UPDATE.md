@@ -8,5 +8,6 @@ Copilots Rückmeldung steht noch aus. Jenny hat die lokale Prüfung inzwischen s
 - CLI liefert einen JSON-Plan für KI-Janny / KI-Engineering Jenny.
 - Portable Node.js-v22.23.2-Laufzeit außerhalb des Repositorys bereitgestellt und Prüfsumme vor Ausführung geprüft.
 - Eigenes lokales Git-Repository und GitHub-Remote eingerichtet.
+- Grundaufbau über den lokalen Git-Zugang auf GitHub veröffentlicht; Standardbranch ist `codex/ki-janny-foundation`.
 
 Den aktuellen Veröffentlichungsstand in `PROJECT_STATUS.md` lesen. `RESPONSE.md` bleibt Copilots eigener Rückmeldung vorbehalten.
