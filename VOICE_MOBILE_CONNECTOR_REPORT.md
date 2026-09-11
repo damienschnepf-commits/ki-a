@@ -4,72 +4,109 @@
 **Projekt:** KI-Janny  
 **Repository:** `damienschnepf-commits/ki-a`  
 **Branch:** `codex/ki-janny-foundation`  
-**Status:** Reproduzierter Integrations-/Session-Kontextfehler
+**Status:** Ursache verifiziert – aktuelle Produktgrenze von ChatGPT Voice
 
-## Ziel
+## Kurzfassung
 
-Der Nutzer soll auf dem iPhone per Sprache mit **KI-Partnerin Mobile** sprechen können. Die Mobile-Instanz soll daraus Übergaben formulieren und diese über GitHub an **Jenny** weitergeben. Jenny bleibt die Planerin und verteilt daraus Aufgaben an ihre Worker. Die bestehende Architektur soll nicht ersetzt werden.
+Der bisher beobachtete Unterschied zwischen Text und Voice wurde am 2026-09-11 praktisch reproduziert und anschließend mit der aktuellen offiziellen OpenAI-Dokumentation abgeglichen.
 
-Gewünschter Weg:
+Im Textmodus derselben Mobile-Unterhaltung kann der verbundene GitHub-Zugriff verwendet werden. Im Live-Voice-Modus steht diese App-/Plugin-Anbindung derzeit nicht zur Verfügung. OpenAI dokumentiert ausdrücklich, dass Voice Mode aktuell keine Apps unterstützt; die aktuelle Voice-Dokumentation beschreibt Live außerdem als Modus ohne Connected Apps bzw. Plugins.
 
-`Nutzer (Voice) -> KI-Partnerin Mobile -> GitHub -> Jenny (Planerin) -> Worker`
+Damit ist die zuvor vermutete GitHub-, Datenbank- oder Repository-Störung nicht die Ursache dieses konkreten Fehlers.
 
-## Erfolgreich getesteter Teil
+## Ziel des Projekts
 
-Im normalen Chat-Kontext derselben Unterhaltung war der verbundene GitHub-Connector verfügbar.
+Der Nutzer soll auf dem iPhone per Sprache mit der zentralen KI-Partnerin Janny/Jenny arbeiten können. Aus gesprochenen Aufträgen sollen Übergaben entstehen, die anschließend von Jenny und ihren Workern verarbeitet werden können.
 
-Erfolgreich durchgeführt:
+Die bestehende Architektur bleibt bestehen:
 
-1. `JENNY_COMMAND_MOBILE.md` wurde direkt aus dem Repository auf Branch `codex/ki-janny-foundation` gelesen.
-2. Test-ID `MOBILE-HANDOFF-001` wurde erkannt.
-3. `MOBILE_RESPONSE_TO_JENNY.md` wurde anschließend direkt über den GitHub-Connector aktualisiert.
-4. Der Schreibvorgang erzeugte Commit `7c165373b8faa23745347b3c4e2a4a3d8a4f3026`.
-5. Status des Übergabetests: `MOBILE-HANDOFF OK`.
+`Nutzer -> Janny/Jenny (Planerin) -> Worker -> spaeter Developer-Agent`
 
-Damit ist nachgewiesen, dass Lesen und Schreiben über GitHub grundsätzlich funktionieren, wenn der Connector im aktiven Ausführungskontext verfügbar ist.
+GitHub dient weiterhin als lesbare Übergabeschicht der ChatGPT-Sessions. Die bestehende Projektarchitektur wird wegen dieser Produktgrenze nicht neu erfunden.
 
-## Beobachtetes Problem
+## Reproduzierter Test am 2026-09-11
 
-Beim Wechsel derselben Unterhaltung in den Sprachmodus konnte die Voice-Instanz den zuvor verwendeten GitHub-Connector nicht zuverlässig als ausführbares Werkzeug verwenden. Im Voice-Dialog wurde deshalb fälschlicherweise zunächst angenommen bzw. behauptet, der zuvor funktionierende Übergabeweg könne weiterhin direkt ausgeführt werden.
+### Textmodus
 
-Das Problem ist besonders kritisch, weil die Spracheingabe kein Zusatzfeature ist, sondern ein Kernziel des Projekts: Der Nutzer möchte unterwegs sprechen, ohne einen neuen Chat öffnen, Plugins erneut auswählen oder Inhalte manuell kopieren zu müssen.
+Im normalen Textmodus der Mobile-Unterhaltung wurde der GitHub-Connector erfolgreich verwendet.
 
-## Technische Schlussfolgerung
+Nachgewiesen wurden:
 
-Nicht GitHub selbst und nicht die Repository-Struktur sind durch diesen Test als Fehlerquelle belegt. Der erfolgreiche Read/Write-Test zeigt vielmehr, dass die GitHub-Seite funktioniert.
+1. Lesen von `JANNY_SHARED_CONTEXT.md` und `JENNY_COMMAND_MOBILE.md`.
+2. Erkennen des gemeinsamen Mobile-/PC-Handoff-Kontexts.
+3. Schreiben eines realen Fitness-Testauftrags nach `JENNY_COMMAND_MOBILE.md`.
+4. Erfolgreicher GitHub-Commit des Fitness-Handoffs: `4e08527838ec705b254ff63a0bf898dc8f2b9275`.
 
-Die zu untersuchende Grenze liegt zwischen **Chat-/Voice-Ausführungskontext und Connector-Verfügbarkeit bzw. Tool-Handoff**. Ein Connector, der im Textkontext derselben Unterhaltung verfügbar war, darf für die Architektur nicht stillschweigend als im Voice-Ausführungskontext verfügbar angenommen werden.
+Damit ist Read/Write über GitHub im Text-Ausführungskontext praktisch bestätigt.
 
-## Anforderungen an die Lösung
+### Live Voice
 
-- Kein manueller Copy-Paste-Workflow.
-- Kein Zwang, für jede Übergabe einen neuen Chat zu öffnen.
-- Jenny bleibt Planerin vor den Workern.
-- KI-Partnerin Mobile erzeugt bzw. übermittelt Mobile-Rückmeldungen und Übergaben, übernimmt aber nicht Jennys Worker-Rolle.
-- Repository und Branch bleiben die zentrale Übergabeschicht.
-- Voice muss entweder direkt auf einen persistent verfügbaren GitHub-/Backend-Kanal zugreifen können oder die Spracheingabe muss zuverlässig an einen nachgelagerten Prozess übergeben werden, der den GitHub-Schreibvorgang ausführt.
-- Tool-Verfügbarkeit muss vor einer zugesagten GitHub-Aktion geprüft werden. Keine Erfolgsmeldung ohne tatsächlich bestätigten Schreibvorgang.
+Nach Start des Sprachmodus konnte derselbe GitHub-Zugriff nicht als ausführbares Werkzeug verwendet werden. Mehrere verbale Zusagen, der Auftrag werde nach Voice ausgeführt, waren deshalb technisch falsch: Solange die Voice-Schnittstelle aktiv war, wurde kein bestätigter GitHub-Write durchgeführt.
 
-## Auftrag an Entwickler / Worker
+Nach Rückkehr in den Textmodus konnte derselbe Auftrag anschließend tatsächlich geschrieben und durch eine Commit-SHA bestätigt werden.
 
-1. Prüfen, welche Tool-/Connector-Fähigkeiten im Mobile-Voice-Modus tatsächlich verfügbar sind und ob sich diese beim Wechsel zwischen Text und Voice ändern.
-2. Prüfen, ob der bestehende Chat nach Voice-Eingabe einen Text-/Backend-Schritt auslösen kann, der den verbundenen GitHub-Connector verwendet.
-3. Falls Voice den Connector nicht direkt ausführen kann, einen persistenten Übergabemechanismus entwerfen, bei dem Voice nur den Auftrag erfasst und ein autorisierter Backend-/Worker-Schritt GitHub liest bzw. schreibt.
-4. Bestehende Jenny-Architektur beibehalten: `Mobile -> GitHub -> Jenny -> Worker`.
-5. Einen End-to-End-Test definieren, bei dem der Nutzer ausschließlich per Sprache einen kleinen Auftrag (z. B. Fitnessplan-Testauftrag) diktiert und dieser ohne manuelles Copy-Paste in einer von Jenny lesbaren GitHub-Datei landet.
-6. Erfolgskriterium: Der Nutzer bleibt in seiner Mobile-Unterhaltung, spricht den Auftrag ein und erhält erst nach bestätigtem GitHub-Write eine Erfolgsmeldung.
+## Offiziell bestätigte Ursache
 
-## Vorgeschlagener Regressionstest
+Aktuelle OpenAI-Hilfe, geprüft am 2026-09-11:
 
-**Test-ID:** `VOICE-MOBILE-HANDOFF-001`
+- `Apps in ChatGPT`: Voice Mode unterstützt derzeit keine Apps.
+- `ChatGPT Voice`: Live unterstützt aktuell keine Connected Apps oder Plugins.
+- Die Verfügbarkeit kann generell von Oberfläche, Tarif, Region, Workspace und Modell abhängen.
 
-1. Mobile-Unterhaltung öffnen.
-2. Voice starten.
-3. Auftrag diktieren: kleiner Fitnesscenter-Plan als Testauftrag für Jenny.
-4. Voice/Chat übergibt den Auftrag ohne Nutzer-Copy-Paste an GitHub.
-5. Ziel-Datei wird auf `codex/ki-janny-foundation` geschrieben.
-6. Jenny kann die Übergabe lesen.
-7. Commit-SHA wird als technischer Erfolgsnachweis zurückgegeben.
+Daraus folgt für das getestete Mobile-Setup:
 
-**PASS:** Alle Schritte funktionieren ohne neuen Chat und ohne erneutes manuelles Aktivieren des GitHub-Connectors.  
-**FAIL:** Voice verliert den ausführbaren Connector-Kontext, verlangt einen neuen Chat oder benötigt Copy-Paste.
+`Live Voice != Textmodus mit GitHub-App-Zugriff`
+
+Das Verhalten ist damit nach aktuellem Dokumentationsstand eine Produktgrenze und nicht als Fehler des KI-Janny-Repositories nachgewiesen.
+
+## Konsequenz für KI-Janny
+
+Die bisherige Arbeit an Persistenz, PostgreSQL, Session-Bootstrap, GitHub-Handoffs und Worker-Struktur war nicht nutzlos. Sie löst jedoch nicht die Produktgrenze, dass Live Voice selbst die verbundene GitHub-App nicht ausführen kann.
+
+Der Fehler in der bisherigen Annahme war: Ein in derselben Unterhaltung verfügbarer Connector wurde als automatisch auch im Live-Voice-Ausführungskontext verfügbar betrachtet.
+
+Das darf künftig nicht mehr angenommen werden.
+
+## Arbeitsregel ab sofort
+
+Für Mobile gilt vorerst:
+
+1. Voice dient zur natürlichen Auftragserfassung und Planung.
+2. Solange Live Voice aktiv ist, darf kein GitHub-Write als erfolgreich behauptet werden, wenn keine tatsächliche Tool-Bestätigung vorliegt.
+3. Nach Wechsel zurück in einen unterstützten Text-/Tool-Kontext kann der vorbereitete Auftrag über GitHub geschrieben werden.
+4. Erfolg einer Übergabe wird erst nach realem Write und Commit-SHA gemeldet.
+5. Der Benutzer soll langfristig nicht als manuelle Synchronisationsstelle dienen. Der zusätzliche Text-Anstoß ist nur ein aktueller Workaround, nicht das Zielsystem.
+
+## Auftrag an Desktop-Janny / Entwickler
+
+1. Diesen Bericht zusammen mit `JANNY_SHARED_CONTEXT.md`, `PROJECT_STATUS.md`, `README.md`, `JENNY_COMMAND_MOBILE.md` und `MOBILE_RESPONSE_TO_JENNY.md` als aktuellen Integrationsstand berücksichtigen.
+2. Keine neue Agentenarchitektur erfinden. Jenny bleibt Planerin vor dem Worker.
+3. Die bisher für Voice angenommene direkte GitHub-App-Ausführung aus der Mobile-Live-Voice-Sitzung aus der Planung entfernen.
+4. Prüfen, welcher von OpenAI offiziell unterstützte Ausführungspfad den geringsten Bruch erzeugt, insbesondere Text-/Tool-Handoff oder geeignete Desktop-/Agent-Ausführung.
+5. Ziel bleibt ein automatisierter Übergang: Sprache erfasst Auftrag -> toolfähige Ausführungsumgebung übernimmt -> GitHub/Backend wird aktualisiert -> bestätigtes Ergebnis geht an Janny zurück.
+6. Bestehende PostgreSQL- und Session-Arbeit nur dort ändern, wo der neue verifizierte Produktgrenzwert dies tatsächlich erfordert.
+7. Einen neuen E2E-Test definieren, der ausdrücklich zwischen Voice-Erfassung und Tool-Ausführung unterscheidet.
+
+## Akzeptanztest
+
+**Test-ID:** `VOICE-TO-TOOL-HANDOFF-002`
+
+1. Nutzer startet Mobile Live Voice.
+2. Nutzer diktiert einen kleinen Auftrag.
+3. Voice erfasst den vollständigen Auftrag, ohne einen GitHub-Erfolg vorzutäuschen.
+4. Ein unterstützter toolfähiger Kontext übernimmt den Auftrag.
+5. Dieser Kontext schreibt die Übergabedatei in GitHub.
+6. GitHub liefert eine Commit-SHA.
+7. Jenny kann die Übergabe lesen und den Worker gemäß bestehender Architektur anstoßen.
+8. Der Nutzer erhält erst nach Schritt 6 eine technische Erfolgsmeldung.
+
+**PASS:** Auftrag gelangt ohne Copy-Paste und mit bestätigtem Write von Sprache zur ausführenden Jenny-/Worker-Kette.  
+**FAIL:** Der Nutzer muss den Auftragsinhalt manuell übertragen oder Voice behauptet einen Write ohne Tool-Bestätigung.
+
+## Ergebnis
+
+Der entscheidende Befund lautet:
+
+**Das Mobile-Voice-Problem ist reproduziert und durch die aktuelle OpenAI-Dokumentation als fehlende App-/Plugin-Unterstützung im Voice-Modus erklärbar. GitHub selbst funktioniert im getesteten Textmodus.**
+
+Die weitere Entwicklung soll daher nicht mehr versuchen, diese Produktgrenze durch zusätzliche Datenbank- oder Repository-Logik innerhalb von Live Voice zu 'reparieren', sondern einen verifizierten Handoff in eine toolfähige Ausführungsumgebung vorsehen.
