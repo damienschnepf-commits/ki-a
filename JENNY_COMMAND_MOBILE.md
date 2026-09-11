@@ -1,28 +1,30 @@
-# JANNY COMMAND – MOBILE
+# JANNY COMMAND - MOBILE
 
-**Target:** Mobile Session
-**Status:** APPROVED – TESTÜBERGABE
-**Test ID:** MOBILE-HANDOFF-001
+Target: KI-Partnerin Jenny / PC
+Status: APPROVED - AUSFUEHREN
+Auftrag ID: FITNESS-HANDOFF-001
 
-Diese Datei ist die feste Übergabedatei von **Janny an die Mobile Session**.
+## Auftrag
 
-## Aktueller Auftrag – Testübergabe
+Jenny soll einen Worker beauftragen, fuer den Benutzer einen Trainingsplan fuer einen Anfaenger im Fitnesscenter zu erstellen.
 
-Dies ist ein reiner Übergabetest. Bitte bestätige, dass du diesen Auftrag direkt aus dem Repository `damienschnepf-commits/ki-a` auf dem Branch `codex/ki-janny-foundation` aus dem Root gelesen hast.
+Anforderungen:
+- Schwerpunkt Oberkoerper.
+- Uebliche Fitnesscenter-Maschinen sind vorhanden.
+- Einfach und fuer einen Anfaenger geeignet.
+- Intensives Training ist gewuenscht, mit sinnvoller Belastungssteigerung fuer Anfaenger.
+- Anzahl Trainingseinheiten pro Woche festlegen.
+- Dauer je Trainingseinheit angeben.
+- Konkrete Uebungen bzw. Maschinen nennen.
+- Saetze und Wiederholungen pro Uebung angeben.
+- Pausenzeiten und Trainingsintensitaet angeben.
+- Einen klaren Wochenablauf erstellen.
 
-Schreibe anschließend deine Antwort in die feste Rückmeldedatei:
+## Ausfuehrung
 
-`MOBILE_RESPONSE_TO_JENNY.md`
+1. Jenny liest diesen Auftrag auf dem PC.
+2. Jenny uebergibt ihn an einen Worker.
+3. Der Worker erstellt den Trainingsplan.
+4. Das Ergebnis wird fuer Jenny und Mobile zurueckgemeldet.
 
-Die Antwort soll enthalten:
-
-1. Test ID `MOBILE-HANDOFF-001`.
-2. Bestätigung, dass `JENNY_COMMAND_MOBILE.md` erfolgreich gelesen wurde.
-3. Bestätigung, dass die Antwort direkt in `MOBILE_RESPONSE_TO_JENNY.md` gespeichert wurde.
-4. Kurzer Status: `MOBILE-HANDOFF OK` oder konkrete Fehlermeldung.
-
-Keine weiteren Projektaufgaben ausführen und keine Worker-Dateien verändern.
-
-## Zweck
-
-Nachweisen, dass Janny → GitHub → Mobile Session → GitHub → Janny ohne manuelles Copy-Paste als Übergabeweg funktioniert.
+Dieser Auftrag ist vom Benutzer ausdruecklich zur Ausfuehrung freigegeben.
