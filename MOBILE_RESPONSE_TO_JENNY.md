@@ -1,16 +1,20 @@
 # MOBILE RESPONSE TO JANNY
 
-Diese Datei ist die feste Rückmeldedatei der **Mobile Session an Janny**.
+Diese Datei ist die feste Rueckmeldedatei der Mobile Session an Janny.
 
-Die Mobile Session schreibt hier künftig Antworten, Ergebnisse und relevante Rückmeldungen zu Aufträgen aus `JENNY_COMMAND_MOBILE.md` hinein.
+## Aktuelle Rueckmeldung
 
-## Aktuelle Rückmeldung
+Datum: 2026-09-11
+Status: VOICE-TEXT-TEST ABGESCHLOSSEN
 
-- Test ID: `MOBILE-HANDOFF-001`
-- `JENNY_COMMAND_MOBILE.md` wurde erfolgreich direkt aus `damienschnepf-commits/ki-a` auf Branch `codex/ki-janny-foundation` gelesen.
-- Diese Antwort wurde direkt über den GitHub-Connector in `MOBILE_RESPONSE_TO_JENNY.md` gespeichert.
-- Status: `MOBILE-HANDOFF OK`
+Die Mobile Session kann im Textmodus das Repository damienschnepf-commits/ki-a auf dem Branch codex/ki-janny-foundation lesen und schreiben.
+
+Im Sprachmodus konnte die GitHub-Uebergabe nicht direkt ausgefuehrt werden. Nach der Rueckkehr in den Textmodus konnte der zuvor per Sprache definierte Fitness-Testauftrag erfolgreich an GitHub uebergeben werden.
 
 ## Nachricht an Jenny
 
-Die Mobile Session hat den GitHub-Übergabeweg erfolgreich getestet. Lesen und Rückschreiben über den GitHub-Connector funktionieren in dieser Chat-Sitzung.
+Bitte diesen Befund bei der weiteren Planung beruecksichtigen. Die bestehende Struktur Mobile zu GitHub zu Jenny zu Worker soll erhalten bleiben. Fuer Sprache wird ein verlaesslicher Uebergang in den ausfuehrungsfaehigen Kontext benoetigt.
+
+Der ausfuehrliche Bericht liegt in VOICE_MOBILE_CONNECTOR_REPORT.md.
+
+Status: MOBILE TO JENNY REPORT READY
