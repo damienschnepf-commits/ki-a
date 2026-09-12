@@ -23,7 +23,7 @@ npm start -- "Projektübersicht verbessern"
 npm test
 ```
 
-Alternativ: `node src/cli.mjs "Projektübersicht verbessern"`.
+Alternativ: `node src/cli.mjs SESSION-PC-001 PC Damien-PC "Projektübersicht verbessern"`.
 Leere Aufträge werden mit Exit-Code 1 abgelehnt.
 
 ## Aufbau
@@ -39,3 +39,7 @@ Leere Aufträge werden mit Exit-Code 1 abgelehnt.
 ## Arbeitsweise
 
 Neue Änderungen entstehen auf `codex/<thema>` und werden über einen Pull Request geprüft. Fachliche Entscheidungen und Änderungen am Funktionsumfang werden im Repository dokumentiert. Zugangsdaten gehören weder in Code noch in GitHub-Issues. Eine Modellanbindung und deren Zugangsdaten werden erst in einem eigenen Umsetzungsschritt eingerichtet.
+
+## Manueller SQL-Datei-Sync
+
+Die vier bestehenden PostgreSQL-Export-Views lassen sich mit npm run sync:state lokal exportieren. Einrichtung, Ausgabeformat und Tests: [SQL_SYNC.md](docs/SQL_SYNC.md).

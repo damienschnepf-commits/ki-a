@@ -9,6 +9,11 @@
   },
   "scripts": {
     "start": "node src/cli.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "sync:state": "node src/sync-state.mjs",
+    "sync:github": "node src/sync-github.mjs"
+    ,"db:migrate": "node src/migrate.mjs"
+    ,"chat": "node src/chat-cli.mjs"
+    ,"test:core-local": "node src/local-core-e2e.mjs"
   }
 }
