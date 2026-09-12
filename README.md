@@ -34,7 +34,6 @@ Leere Aufträge werden mit Exit-Code 1 abgelehnt.
 - [Architektur](docs/ARCHITECTURE.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Projektstatus](PROJECT_STATUS.md)
-- [Austausch mit GitHub Copilot](copilot/README.md)
 
 ## Arbeitsweise
 
