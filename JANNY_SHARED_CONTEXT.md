@@ -43,13 +43,22 @@ Der Benutzer soll nicht als manuelle Synchronisationsstelle zwischen den Session
 
 - Janny-Kern zuerst stabilisieren.
 - PostgreSQL bleibt zentrale Source of Truth für den persistenten technischen Zustand.
-- Der Janny-Kern besitzt Session-Bootstrap, gemeinsames Profil, Gesprächsspeicher, Provenance und `state_version`-Schutz.
-- Lokaler deterministischer Modelladapter wurde für API-unabhängige Tests ergänzt.
-- CMD-007 wurde lokal mit PC → VOICE → IPHONE technisch erfolgreich getestet.
-- Stale Writes wurden im Test blockiert.
+- Der veröffentlichte Branch `codex/ki-janny-foundation` enthält derzeit nur den kleinen deterministischen Aufgabenplaner (`src/jenny.mjs`, `src/cli.mjs`) und vier bestandene Tests. Er enthält keinen Session-Bootstrap und keinen PostgreSQL-Gesprächspfad.
+- Der erweiterte Janny-Core wurde als uncommittierter lokaler Arbeitsstand unter `C:\Users\Damien\ChatGPT Projekte\ki-a` auf dem lokalen Branch `codex/sql-file-sync` gefunden. Dort liegen Session-Bootstrap, gemeinsames Profil, Gesprächsspeicher, Provenance, `state_version`-Schutz und lokaler Modelladapter.
+- Am 2026-09-12 wurden in dieser lokalen Arbeitskopie 28 Tests erneut ausgeführt: 28 bestanden, 0 fehlgeschlagen.
+- Der Bericht über den erfolgreichen CMD-007-Lauf PC → VOICE → IPHONE und den blockierten Stale Write ist im Shared Repository belegt. Der reale PostgreSQL-E2E-Lauf konnte am 2026-09-12 nicht wiederholt werden, weil `localhost:5432` keine Verbindung annahm.
+- `state_version: 2` ist daher nur der letzte erreichbare exportierte Snapshot aus `CURRENT_STATE.md`, nicht ein frisch gelesener PostgreSQL-Stand.
 - Externe OpenAI-Modellantwort ist wegen fehlendem API-Guthaben noch nicht als E2E-Nachweis erbracht.
 - Automatische Worker-Steuerung kommt erst nach stabilem Janny-Kern.
 - GSM/Cloudflare und Bluetooth/P0-P9 bleiben für später.
+
+## Auflösung des Bestandswiderspruchs
+
+Die erweiterten Komponenten sind weder im veröffentlichten Branch enthalten noch nachweislich verloren. Sie existieren als uncommittierte lokale Änderungen in der oben genannten Arbeitskopie. `JANNY_SHARED_CONTEXT.md` hatte den lokalen Entwicklungsstand fälschlich wie einen veröffentlichten Branch-Stand formuliert.
+
+## Genau ein nächster Schritt
+
+Den uncommittierten lokalen Janny-Core ohne weitere Funktionsänderung sichern und als überprüfbaren Git-Commit auf einem eigenen Topic-Branch versionieren; vorher Diff, Secrets-Ausschluss und die 28 Tests prüfen. Erst danach PostgreSQL starten beziehungsweise erreichbar machen und CMD-007 erneut unabhängig abnehmen.
 
 ## Mobile-Handoff
 
