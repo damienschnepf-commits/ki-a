@@ -4,7 +4,7 @@ node_modules/
 !.env.example
 coverage/
 *.log
-
+  
 # Lokale Datenbankauszuege
 /CURRENT_STATE.md
 /OPEN_TASKS.md
