@@ -16,10 +16,10 @@ Für die lokale Abnahme führt `npm run test:core-local` PC → VOICE → IPHONE
 
 ## Noch offene Abnahme
 
-1. Gesprächsgeschichte ist mit Herkunft und Versionsstand in PostgreSQL angebunden und wird beim Kontextaufbau geladen. Die Datenbankmigration muss vor dem ersten Gespräch einmal ausgeführt werden.
-2. Einen tatsächlichen Gesprächseingang mit diesem Kontext verbinden. Die Entscheidung über eine eigene Sprachoberfläche ist offen.
-3. Während einer laufenden Sitzung geänderte Versionen erkennen und vor zustandsabhängiger Antwort bzw. Aktion nachladen; der aktuelle Vergleich prüft nur die Konsistenz des übergebenen Snapshots.
-4. Mit echtem Modell prüfen: Identität bleibt wiedererkennbar, entschiedene Themen werden nicht ungefragt neu verhandelt, Geschichte wird korrekt erinnert, Vorschläge überschreiben keinen Plan.
-5. Gerätewechsel mit echter PC- und iPhone-Sitzung prüfen. Lokale Tests mit unterschiedlichen Sessiontypen sind keine Geräteabnahme.
+1. **Implementiert, Datenbankabnahme offen:** Kernschema, versionierte Migrationen und Gesprächsspeicher sind im Code vorhanden. `npm run db:migrate` muss vor dem ersten Gespräch nach Prüfung und Backup einmal gegen die vorgesehene Datenbank laufen. Ein fachlich freigegebener Startzustand ist separat über `npm run db:initialize` einzutragen; es gibt keinen automatisch erfundenen Seed.
+2. **Implementiert, Laufzeitabnahme offen:** `npm run chat` verbindet den CLI-Gesprächseingang mit Bootstrap, Kontext, Modelladapter und PostgreSQL-Speicherung. Eine eigene Sprachoberfläche bleibt eine offene Produktentscheidung.
+3. **Implementiert, PostgreSQL-Konflikttest offen:** Vor dem Modellaufruf wird der Snapshot erneut geladen. Ändert sich die Version während der Antwort, blockiert die Speicherung den veralteten Austausch; der Ablauf lädt neu und erzeugt die Antwort erneut. Wiederholte Konflikte brechen nach drei Versuchen ab.
+4. **Echte Modellabnahme offen:** Mit echtem Modell prüfen: Identität bleibt wiedererkennbar, entschiedene Themen werden nicht ungefragt neu verhandelt, Geschichte wird korrekt erinnert, Vorschläge überschreiben keinen Plan. Die Unit-Tests verwenden Mock/`local-test` und bestätigen keine API-Verbindung.
+5. **Geräteabnahme offen:** Gerätewechsel mit echten PC- und iPhone-Sitzungen prüfen. Lokale Tests mit unterschiedlichen Sessiontypen belegen keine physische Handyverbindung.
 
 Die frühere Aussage „Session-Bootstrap fertig“ belegte lokale Datenbankoperationen. Die vollständige Produktanforderung ist weiterhin offen. Alte Datenbank- oder Repo-Statusangaben über Worker als nächsten Schritt sind gegen die obige neuere Planung abzugleichen, bevor weitere Aufträge ausgeführt werden.

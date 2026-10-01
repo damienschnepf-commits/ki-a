@@ -20,6 +20,8 @@ test('PC, IPHONE und VOICE erhalten gleichen gemeinsamen Kontext', () => {
   const pc = buildConversationContext(snapshot());
   for (const type of ['IPHONE', 'VOICE']) assert.deepEqual(buildConversationContext(snapshot(type)), pc);
   assert.equal(pc.evidence.physicalDeviceVerified, false);
+  assert.equal(pc.evidence.snapshotRefresh, 'before_model_and_after_version_conflict');
+  assert.equal('liveRefreshConnected' in pc.evidence, false);
   assert.equal(pc.history.status, 'connected');
 });
 

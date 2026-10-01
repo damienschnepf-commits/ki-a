@@ -1,5 +1,24 @@
 # Manueller SQL-Datei-Sync
 
+## Zentralschema und Initialisierung
+
+`npm run db:migrate` legt die versionierten Kern-Tabellen und fehlenden Export-Views an und ergänzt den PostgreSQL-Gesprächsspeicher. Es verwendet `PGDATABASE` (Standard `janny_central`) und `PGSCHEMA` (Standard `public`). Bestehende Export-Views werden nicht ersetzt. Die Migration wird nicht automatisch beim Chat- oder Sync-Aufruf ausgeführt.
+
+Vor dem ersten Einsatz Datenbank, Schema, Anmeldung und vorhandene Objekte prüfen und ein Backup erstellen. Der Befehl verändert das konfigurierte PostgreSQL-Schema. Ein erfolgreicher Unit-Test ersetzt keine Abnahme gegen die vorgesehene Datenbank.
+
+Das Projekt initialisiert keinen erfundenen Zustand. Nach fachlicher Prüfung der gewünschten Startwerte kann ein noch leerer `system_state` einmalig angelegt werden:
+
+```powershell
+$env:JANNY_INITIAL_PHASE = '<freigegebene Phase>'
+$env:JANNY_INITIAL_GOAL = '<freigegebenes Ziel>'
+$env:JANNY_INITIAL_NEXT_STEP = '<freigegebener nächster Schritt>'
+npm run db:initialize
+```
+
+Fehlende Werte brechen ab. Eine bestehende zentrale Zustandszeile wird nicht überschrieben. Die Ausführungsfreigabe bleibt beim Initialisieren gesperrt. Die Werte sind Projektdaten, keine Zugangsdaten; Geheimnisse weiterhin nicht in Dateien oder Chat eintragen.
+
+Die Migrationstabelle `schema_migrations` führt `001_janny_central` und `002_conversation_messages`. Beide Migrationen sind wiederholbar und ändern vorhandene View-Definitionen nicht.
+
 ## Dateien nach GitHub (CMD-003)
 
 `npm run sync:github` exportiert zuerst frisch aus PostgreSQL und überträgt ausschließlich die vier bestehenden Exportdateien nach `damienschnepf-commits/Shared-files-with-Jenny`, Branch `main`. PostgreSQL `janny_central` bleibt die alleinige Quelle der Wahrheit für diesen Zustand. Das öffentliche Code-Repository ist kein Ziel für Datenbankauszüge.

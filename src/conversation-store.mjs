@@ -1,6 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { runJsonQuery, sqlLiteral } from './database.mjs';
 
+export class ConversationConflictError extends Error {
+  constructor() {
+    super('Gespräch wurde wegen eines Versions- oder Sessionkonflikts nicht gespeichert.');
+    this.name = 'ConversationConflictError';
+  }
+}
+
 function text(name, value, max = 50_000) {
   if (typeof value !== 'string' || !value.trim()) throw new TypeError(`${name} fehlt.`);
   if (value.length > max) throw new TypeError(`${name} ist zu lang.`);
@@ -9,6 +16,10 @@ function text(name, value, max = 50_000) {
 
 export function migrationSql() {
   return `BEGIN;
+CREATE TABLE IF NOT EXISTS __SCHEMA__.schema_migrations (
+  migration_code text PRIMARY KEY,
+  applied_at timestamptz NOT NULL DEFAULT now()
+);
 CREATE TABLE IF NOT EXISTS __SCHEMA__.conversation_messages (
   id bigserial PRIMARY KEY,
   message_code text NOT NULL UNIQUE,
@@ -24,6 +35,9 @@ CREATE TABLE IF NOT EXISTS __SCHEMA__.conversation_messages (
 );
 CREATE INDEX IF NOT EXISTS conversation_messages_created_idx
   ON __SCHEMA__.conversation_messages (created_at DESC, id DESC);
+INSERT INTO __SCHEMA__.schema_migrations (migration_code)
+VALUES ('002_conversation_messages')
+ON CONFLICT (migration_code) DO NOTHING;
 SELECT json_build_object('migrated', true, 'table', 'conversation_messages');
 COMMIT;`;
 }
@@ -69,6 +83,6 @@ COMMIT;`;
 
 export function saveExchange(exchange, adapters = {}) {
   const result = (adapters.query || runJsonQuery)(saveExchangeSql(exchange), adapters);
-  if (!result.saved) throw new Error('Gespräch wurde wegen eines Versions- oder Sessionkonflikts nicht gespeichert.');
+  if (!result.saved) throw new ConversationConflictError();
   return result;
 }

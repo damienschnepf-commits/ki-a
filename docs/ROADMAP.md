@@ -10,15 +10,20 @@
 
 Abnahme: Ein gültiger Auftrag ergibt einen Jenny zugeordneten Plan; ungültige Eingaben scheitern; Dokumentation beschreibt die tatsächlichen Grenzen.
 
-## 2 — Ersten realen Engineering-Ablauf festlegen
+## 2 — Persistenter Janny-Kern und Gesprächspfad
 
-- [ ] Einen konkreten Anwendungsfall und dessen erwartetes Ergebnis mit Damien festlegen.
-- [ ] Eingaben, erlaubte Aktionen und Abnahmekriterien im Repository dokumentieren.
-- [ ] Entscheiden, ob und welche Modellanbindung dafür nötig ist.
-- [ ] Anbindung und Zugangsdaten separat einrichten, falls benötigt.
-- [ ] Einen vollständigen Ablauf mit überprüfbarem Ergebnis implementieren.
+- [x] Identität, Projektkontext, Entscheidungen, Verlauf und Freigabegrenzen in `JANNY_CORE.md` festlegen.
+- [x] PostgreSQL-Zentralschema, versionierte Migrationen und explizite Initialisierung implementieren.
+- [x] PC-, VOICE- und IPHONE-Sessions mit gemeinsamem Snapshot-Kontext und Gesprächsspeicher verbinden.
+- [x] Chat-CLI, OpenAI-Adapter und deterministischen `local-test`-Adapter bereitstellen.
+- [x] Snapshot vor der Antwort erneut laden und veraltete Schreibvorgänge begrenzt wiederholen.
+- [x] Lokale Unit-Tests bestehen (2026-10-01: 35 bestanden).
+- [ ] PostgreSQL-Schema nach Prüfung und Backup auf die vorgesehene Datenbank migrieren und `npm run test:core-local` ausführen.
+- [ ] Identitäts-, Erinnerungs- und Entscheidungsstabilität mit einem echten Modell abnehmen.
+- [ ] Gemeinsamen Kontext mit echten PC- und iPhone-Sitzungen abnehmen.
+- [ ] Entscheiden, ob eine eigene Sprachoberfläche benötigt wird.
 
-Abnahme: Jenny löst den vereinbarten Fall reproduzierbar und meldet Fehler verständlich.
+Abnahme: Datenbankmigration und lokaler End-to-End-Test bestehen; Modell- und Geräteverhalten sind separat anhand der festgelegten Kriterien geprüft.
 
 ## 3 — Nachgeordnete Agenten, nur bei Bedarf
 

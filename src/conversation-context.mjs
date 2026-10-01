@@ -75,7 +75,7 @@ export function buildConversationContext(centralState) {
     history: { status: 'connected', entries: canonicalRows(history).sort((a, b) => Number(a.id) - Number(b.id)) },
     evidence: {
       scope: 'database_snapshot',
-      liveRefreshConnected: true,
+      snapshotRefresh: 'before_model_and_after_version_conflict',
       physicalDeviceVerified: false,
     },
   });

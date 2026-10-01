@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { chat } from '../src/chat.mjs';
 import { createResponse } from '../src/openai.mjs';
-import { saveExchangeSql } from '../src/conversation-store.mjs';
+import { ConversationConflictError, migrationSql, saveExchangeSql } from '../src/conversation-store.mjs';
 
 function state() {
   return {
@@ -43,6 +43,80 @@ test('lokaler Testadapter ersetzt nur den externen Modellaufruf', async () => {
   assert.equal(stored.stateVersion, 4);
 });
 
+test('Versionskonflikt lädt frischen Snapshot und verwirft die veraltete Modellantwort', async () => {
+  const stale = state();
+  const fresh = state();
+  fresh.stateVersion = 5;
+  fresh.session.loaded_state_version = 5;
+  fresh.currentState[0].state_version = 5;
+  fresh.currentState[0].current_goal = 'Aktualisiertes Ziel';
+  const snapshots = [stale, stale, fresh, fresh];
+  const seenGoals = [];
+  let saved;
+
+  const result = await chat({ sessionCode: 'S', sessionType: 'PC', deviceName: 'PC', userText: 'Weiter' }, {
+    bootstrap: () => snapshots.shift() || fresh,
+    respond: async ({ context }) => {
+      seenGoals.push(context.project.current_goal);
+      return { text: context.project.current_goal, responseId: `response-${seenGoals.length}`, model: 'test-model' };
+    },
+    save: input => {
+      if (input.stateVersion === 4) throw new ConversationConflictError();
+      saved = input;
+      return { exchangeCode: 'E-fresh' };
+    },
+  });
+
+  assert.deepEqual(seenGoals, ['Kern stabilisieren', 'Aktualisiertes Ziel']);
+  assert.equal(saved.stateVersion, 5);
+  assert.equal(saved.assistantText, 'Aktualisiertes Ziel');
+  assert.deepEqual(result, { text: 'Aktualisiertes Ziel', stateVersion: '5', exchangeCode: 'E-fresh' });
+});
+
+test('geänderter Zustand wird vor dem Modellaufruf neu geladen', async () => {
+  const stale = state();
+  const fresh = state();
+  fresh.stateVersion = 5;
+  fresh.session.loaded_state_version = 5;
+  fresh.currentState[0].state_version = 5;
+  fresh.currentState[0].current_goal = 'Aktualisiertes Ziel';
+  let bootstrapCount = 0;
+  let responseCount = 0;
+  let saved;
+
+  const result = await chat({ sessionCode: 'S', sessionType: 'PC', deviceName: 'PC', userText: 'Weiter' }, {
+    bootstrap: () => bootstrapCount++ === 0 ? stale : fresh,
+    respond: async ({ context }) => {
+      responseCount += 1;
+      return { text: context.project.current_goal, responseId: 'response-current', model: 'test-model' };
+    },
+    save: input => { saved = input; return { exchangeCode: 'E-current' }; },
+  });
+
+  assert.equal(responseCount, 1);
+  assert.equal(saved.stateVersion, 5);
+  assert.equal(saved.assistantText, 'Aktualisiertes Ziel');
+  assert.deepEqual(result, { text: 'Aktualisiertes Ziel', stateVersion: '5', exchangeCode: 'E-current' });
+});
+
+test('wiederholte Versionskonflikte beenden die Antwort nach drei Versuchen', async () => {
+  let responseCount = 0;
+  let saveCount = 0;
+  await assert.rejects(chat({ sessionCode: 'S', sessionType: 'PC', deviceName: 'PC', userText: 'Weiter' }, {
+    bootstrap: () => state(),
+    respond: async () => {
+      responseCount += 1;
+      return { text: 'Antwort', responseId: 'r', model: 'test-model' };
+    },
+    save: () => {
+      saveCount += 1;
+      throw new ConversationConflictError();
+    },
+  }), ConversationConflictError);
+  assert.equal(responseCount, 3);
+  assert.equal(saveCount, 3);
+});
+
 test('API-Anfrage speichert extern keinen Verlauf und sendet belegte Geschichte', async () => {
   let body;
   const result = await createResponse({ context: (await import('../src/conversation-context.mjs')).buildConversationContext(state()), userText: 'Weiter', env: { OPENAI_API_KEY: 'test-key-value-long-enough', OPENAI_MODEL: 'test-model' }, request: async (_url, init) => {
@@ -61,4 +135,11 @@ test('Speichern ist an aktive Session und unveränderte Version gebunden', () =>
   assert.match(sql, /s\.loaded_state_version = 4/);
   assert.match(sql, /BEGIN ISOLATION LEVEL SERIALIZABLE/);
   assert.match(sql, /'JANNY_API'/);
+});
+
+test('Gesprächsspeicher-Migration ist versioniert und idempotent aufgebaut', () => {
+  const sql = migrationSql();
+  assert.match(sql, /CREATE TABLE IF NOT EXISTS __SCHEMA__\.conversation_messages/);
+  assert.match(sql, /002_conversation_messages/);
+  assert.match(sql, /ON CONFLICT \(migration_code\) DO NOTHING/);
 });
