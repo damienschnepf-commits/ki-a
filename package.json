@@ -1,0 +1,20 @@
+{
+  "name": "ki-janny",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "KI-Janny mit KI-Engineering Jenny als zentraler Engineering-Komponente",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/cli.mjs",
+    "test": "node --test",
+    "sync:state": "node src/sync-state.mjs",
+    "sync:github": "node src/sync-github.mjs",
+    "db:migrate": "node src/migrate.mjs",
+    "db:initialize": "node src/initialize-central-state.mjs",
+    "chat": "node src/chat-cli.mjs",
+    "test:core-local": "node src/local-core-e2e.mjs"
+  }
+}

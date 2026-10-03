@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.*
+!.env.example
+coverage/
+*.log
+  
+# Lokale Datenbankauszuege
+/CURRENT_STATE.md
+/OPEN_TASKS.md
+/DECISIONS.md
+/SESSION_INDEX.json
+/.janny-sync-*/
