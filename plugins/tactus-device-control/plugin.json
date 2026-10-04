@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "tactus-device-control",
+  "version": "0.1.0",
+  "description": "Local ChatGPT Desktop control of Intiface-connected hardware through the Tactus MCP server.",
+  "author": {
+    "name": "Damien / Terra"
+  },
+  "license": "Apache-2.0",
+  "keywords": ["mcp", "intiface", "buttplug", "hardware", "device-control"]
+}
