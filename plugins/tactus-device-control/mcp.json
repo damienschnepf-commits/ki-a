@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "tactus": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "tactus-mcp"],
+      "env": {
+        "INTIFACE_URL": "ws://127.0.0.1:12345",
+        "MAX_INTENSITY": "0.20",
+        "MAX_CONTINUOUS_MS": "1500"
+      }
+    }
+  }
+}
